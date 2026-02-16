@@ -1,0 +1,16 @@
+# --- Java / IntelliJ ---
+target/
+*.class
+.idea/
+*.iml
+*.log
+
+# --- Angular / Node ---
+node_modules/
+dist/
+.angular/
+package-lock.json
+
+# --- System ---
+.DS_Store
+Thumbs.db
