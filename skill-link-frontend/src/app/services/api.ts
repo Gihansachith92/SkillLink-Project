@@ -12,7 +12,7 @@ export class Api {
   constructor(private http: HttpClient){}
 
   register(userData: any): Observable<any>{
-    return this.http.post(`${this.baseUrl}/register`, userData, {responseType: 'text'});
+    return this.http.post(`${this.baseUrl}/register`, userData);
   }
   
 }
