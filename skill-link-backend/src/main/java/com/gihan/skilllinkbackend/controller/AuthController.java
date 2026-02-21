@@ -1,9 +1,11 @@
 package com.gihan.skilllinkbackend.controller;
 
+import com.gihan.skilllinkbackend.dto.LoginRequest;
 import com.gihan.skilllinkbackend.model.User;
 import com.gihan.skilllinkbackend.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -32,5 +34,24 @@ public class AuthController {
         }catch(RuntimeException e){
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequest loginRequest, BindingResult bindingResult){
+
+        if(bindingResult.hasErrors()){
+            String errorMessage = bindingResult.getFieldError().getDefaultMessage();
+            return ResponseEntity.badRequest().body(Map.of("error", errorMessage));
+        }
+
+        try{
+            User user = userService.loginUser(loginRequest.getEmail(), loginRequest.getPassword());
+            return ResponseEntity.ok(Map.of(
+                    "message","Login Successful! Welcome back, " + user.getName() + "!"
+            ));
+        }catch(RuntimeException e){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", e.getMessage()));
+        }
+
     }
 }
