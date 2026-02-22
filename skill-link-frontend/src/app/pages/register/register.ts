@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Api } from '../../services/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -21,7 +22,7 @@ export class Register {
   message = '';
   isSuccess = false;
 
-  constructor(private api: Api, private cdr: ChangeDetectorRef){}
+  constructor(private api: Api, private cdr: ChangeDetectorRef, private router: Router){}
 
   onSubmit() {
 
@@ -33,6 +34,10 @@ export class Register {
          this.isSuccess = true;
          this.user = {name: '', email: '', password: '', university: ''};
          this.cdr.detectChanges();
+
+         setTimeout(() => {
+          this.router.navigate(['/login']);
+         }, 2000);
       },
       error: (err) => {
         this.message = err.error?.error || 'Registration failed. Please try again.';
