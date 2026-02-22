@@ -18,5 +18,23 @@ export class Api {
   login(credentials: any): Observable<any>{
     return this.http.post(`${this.baseUrl}/login`, credentials);
   }
+
+  // 1. Save the user data to the browser
+  saveUser(userData: any){
+     localStorage.setItem('skilllink_user', JSON.stringify(userData));
+  }
+
+  getUser(){
+    const user = localStorage.getItem('skilllink_user');
+    return user ? JSON.parse(user): null;
+  }
+
+  isLoggedIn(): boolean{
+    return !!localStorage.getItem('skilllink_user');
+  }
+
+  logout(){
+    localStorage.removeItem('skilllink_user');
+  }
   
 }
