@@ -47,7 +47,9 @@ public class AuthController {
         try{
             User user = userService.loginUser(loginRequest.getEmail(), loginRequest.getPassword());
             return ResponseEntity.ok(Map.of(
-                    "message","Login Successful! Welcome back, " + user.getName() + "!"
+                    "message","Login Successful! Welcome back, " + user.getName() + "!",
+                    "name", user.getName(),
+                    "email", user.getEmail()
             ));
         }catch(RuntimeException e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", e.getMessage()));
