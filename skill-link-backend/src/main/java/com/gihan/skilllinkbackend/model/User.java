@@ -7,6 +7,9 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 @Data
@@ -33,5 +36,20 @@ public class User {
 
     @NotBlank(message = "University name is required.")
     private String university;
+
+    private String profileImageUrl;
+
+    @Column(length = 500)
+    private String bio;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_skills_offered", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "skill")
+    private List<String> skillsOffered = new ArrayList<>();
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_skills_wanted", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "skill")
+    private List<String> skillsWanted = new ArrayList<>();
 
 }
