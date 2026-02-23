@@ -1,5 +1,6 @@
 package com.gihan.skilllinkbackend.service;
 
+import com.gihan.skilllinkbackend.dto.UpdateProfileRequest;
 import com.gihan.skilllinkbackend.model.User;
 import com.gihan.skilllinkbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,36 @@ public class UserService {
         }
 
         throw new RuntimeException("Invalid email or password.");
+    }
+
+    public User updateUserProfile(Long userId, UpdateProfileRequest request){
+
+        Optional<User> userOptional = userRepository.findById(userId);
+
+        if(userOptional.isPresent()){
+            User existingUser = userOptional.get();
+
+            if(request.getBio() != null){
+                existingUser.setBio(request.getBio());
+            }
+            if(request.getProfileImageUrl() != null){
+                existingUser.setProfileImageUrl(request.getProfileImageUrl());
+            }
+            if(request.getSkillsOffered() != null){
+                existingUser.getSkillsOffered().clear();
+                existingUser.getSkillsOffered().addAll(request.getSkillsOffered());
+            }
+            if(request.getSkillsWanted() != null){
+                existingUser.getSkillsWanted().clear();
+                existingUser.getSkillsWanted().addAll(request.getSkillsWanted());
+            }
+
+            return userRepository.save(existingUser);
+
+        }
+
+        throw new RuntimeException("User not found in the database.");
+
     }
 
 }
