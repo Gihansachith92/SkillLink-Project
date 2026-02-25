@@ -36,9 +36,9 @@ public class UserController {
 
 
     @GetMapping("/feed")
-    public ResponseEntity<List<UserSummaryResponse>> getDashboardFeed(@RequestParam Long currentUserId){
+    public ResponseEntity<List<UserSummaryResponse>> getDashboardFeed(@RequestParam Long currentUserId, @RequestParam(required = false) String skill){
         try{
-            List<UserSummaryResponse> feed = userService.getFeedUsers(currentUserId);
+            List<UserSummaryResponse> feed = userService.getFeedUsers(currentUserId, skill);
             return ResponseEntity.ok(feed);
         }catch (Exception e){
             return ResponseEntity.badRequest().build();

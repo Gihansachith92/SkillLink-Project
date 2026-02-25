@@ -75,9 +75,15 @@ public class UserService {
 
     }
 
-    public List<UserSummaryResponse> getFeedUsers(Long currentUserId){
+    public List<UserSummaryResponse> getFeedUsers(Long currentUserId, String skill){
 
-        List<User> allOtherUsers = userRepository.findByIdNot(currentUserId);
+        List<User> allOtherUsers;
+
+        if(skill != null && !skill.trim().isEmpty()){
+            allOtherUsers = userRepository.searchBySkill(currentUserId, skill);
+        }else {
+            allOtherUsers = userRepository.findByIdNot(currentUserId);
+        }
 
         return allOtherUsers.stream().map( user -> new UserSummaryResponse(
                 user.getId(),
