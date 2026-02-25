@@ -1,12 +1,14 @@
 package com.gihan.skilllinkbackend.controller;
 
 import com.gihan.skilllinkbackend.dto.UpdateProfileRequest;
+import com.gihan.skilllinkbackend.dto.UserSummaryResponse;
 import com.gihan.skilllinkbackend.model.User;
 import com.gihan.skilllinkbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -30,6 +32,17 @@ public class UserController {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
 
+    }
+
+
+    @GetMapping("/feed")
+    public ResponseEntity<List<UserSummaryResponse>> getDashboardFeed(@RequestParam Long currentUserId){
+        try{
+            List<UserSummaryResponse> feed = userService.getFeedUsers(currentUserId);
+            return ResponseEntity.ok(feed);
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 }

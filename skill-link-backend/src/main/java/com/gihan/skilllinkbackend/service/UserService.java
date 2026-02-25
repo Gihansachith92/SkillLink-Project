@@ -1,13 +1,17 @@
 package com.gihan.skilllinkbackend.service;
 
 import com.gihan.skilllinkbackend.dto.UpdateProfileRequest;
+import com.gihan.skilllinkbackend.dto.UserSummaryResponse;
 import com.gihan.skilllinkbackend.model.User;
 import com.gihan.skilllinkbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class UserService {
@@ -68,6 +72,22 @@ public class UserService {
         }
 
         throw new RuntimeException("User not found in the database.");
+
+    }
+
+    public List<UserSummaryResponse> getFeedUsers(Long currentUserId){
+
+        List<User> allOtherUsers = userRepository.findByIdNot(currentUserId);
+
+        return allOtherUsers.stream().map( user -> new UserSummaryResponse(
+                user.getId(),
+                user.getName(),
+                user.getUniversity(),
+                user.getProfileImageUrl(),
+                user.getBio(),
+                user.getSkillsOffered(),
+                user.getSkillsWanted()
+                )).collect(toList());
 
     }
 
