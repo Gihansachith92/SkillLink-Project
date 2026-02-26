@@ -69,11 +69,17 @@ export class Dashboard implements OnInit{
   newSkillWanted: string = '';
 
   openEditModal() {
+    // 1. Pre-fill the form with your current data so it doesn't start blank
+    this.editData.bio = this.currentUser.bio || '';
+    this.editData.profileImageUrl = this.currentUser.profileImageUrl || '';
+
     this.isEditModalOpen = true;
+    this.cdr.detectChanges();
   }
 
   closeEditModal(){
     this.isEditModalOpen = false;
+    this.cdr.detectChanges();
   }
 
   addSkill(type: 'offered' | 'wanted') {
@@ -98,8 +104,13 @@ export class Dashboard implements OnInit{
   saveProfile() {
     this.apiService.updateProfile(this.currentUser.id, this.editData).subscribe({
       next: (response) => {
+        this.currentUser.bio = response.user.bio;
+        this.currentUser.profileImageUrl = response.user.profileImageUrl;
+
         alert('Profile updated successfully!');
         this.closeEditModal();
+
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Failed to update profile', err);
