@@ -55,4 +55,58 @@ export class Dashboard implements OnInit{
     this.router.navigate(['/login']);
   }
 
+
+  isEditModalOpen: boolean = false;
+
+  editData = {
+    bio: '',
+    profileImageUrl: '',
+    skillsOffered: [] as string[],
+    skillsWanted: [] as string[]
+  };
+
+  newSkillOffered: string = '';
+  newSkillWanted: string = '';
+
+  openEditModal() {
+    this.isEditModalOpen = true;
+  }
+
+  closeEditModal(){
+    this.isEditModalOpen = false;
+  }
+
+  addSkill(type: 'offered' | 'wanted') {
+    if(type == 'offered' && this.newSkillOffered.trim()){
+      this.editData.skillsOffered.push(this.newSkillOffered.trim());
+      this.newSkillOffered = '';
+    }else if(type ==  'wanted' && this.newSkillWanted.trim()){
+      this.editData.skillsWanted.push(this.newSkillWanted.trim());
+      this.newSkillWanted = '';
+    }
+  }
+
+  removeSkill(type: 'offered' | 'wanted', index: number) {
+    if(type == 'offered') {
+      this.editData.skillsOffered.splice(index,1);
+    }else {
+      this.editData.skillsWanted.splice(index, 1);
+    }
+  }
+
+
+  saveProfile() {
+    this.apiService.updateProfile(this.currentUser.id, this.editData).subscribe({
+      next: (response) => {
+        alert('Profile updated successfully!');
+        this.closeEditModal();
+      },
+      error: (err) => {
+        console.error('Failed to update profile', err);
+        alert('Error saving profile.');
+      }
+    });
+  }
+
+
 }
