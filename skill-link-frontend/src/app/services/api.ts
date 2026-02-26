@@ -36,5 +36,14 @@ export class Api {
   logout(){
     localStorage.removeItem('skilllink_user');
   }
+
+  // new Feed and Search method
+  getFeed(currentUserId: number, skill?: string): Observable<any>{
+    let url = `${this.baseUrl}/users/feed?currentUserId=${currentUserId}`;
+    if(skill) {
+      url += `&skill=${skill}`;
+    }
+    return this.http.get(url);
+  }
   
 }
