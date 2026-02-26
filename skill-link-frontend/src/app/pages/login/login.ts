@@ -35,6 +35,7 @@ export class Login {
 
         // SAVE TO LOCAL STORAGE: We grab the name and email Java just sent
         this.apiService.saveUser({
+          id: response.id,
           name: response.name,
           email: response.email
         });
