@@ -48,6 +48,7 @@ public class AuthController {
             User user = userService.loginUser(loginRequest.getEmail(), loginRequest.getPassword());
             return ResponseEntity.ok(Map.of(
                     "message","Login Successful! Welcome back, " + user.getName() + "!",
+                    "id", user.getId(),
                     "name", user.getName(),
                     "email", user.getEmail()
             ));
