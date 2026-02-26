@@ -45,5 +45,10 @@ export class Api {
     }
     return this.http.get(url);
   }
+
+  updateProfile(userId: number, profileData: any): Observable<any> {
+    const url = `http://localhost:8080/api/users/${userId}/profile`;
+    return this.http.put(url,profileData);
+  }
   
 }
