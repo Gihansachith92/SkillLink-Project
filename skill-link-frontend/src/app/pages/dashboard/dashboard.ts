@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Api } from '../../services/api';
 import { Router } from '@angular/router';
@@ -16,7 +16,7 @@ export class Dashboard implements OnInit{
   feedUsers: any[] = [];
   searchQuery: string = '';
 
-  constructor(private apiService: Api, private router: Router){}
+  constructor(private apiService: Api, private router: Router, private cdr: ChangeDetectorRef){}
 
   ngOnInit() {
     // 1. Security Check: Kick them out if they aren't logged in
@@ -37,6 +37,7 @@ export class Dashboard implements OnInit{
     this.apiService.getFeed(this.currentUser.id, this.searchQuery).subscribe({
       next: (users) => {
         this.feedUsers = users;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Failed to load feed', err);

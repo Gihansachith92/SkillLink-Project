@@ -39,7 +39,7 @@ export class Api {
 
   // new Feed and Search method
   getFeed(currentUserId: number, skill?: string): Observable<any>{
-    let url = `${this.baseUrl}/users/feed?currentUserId=${currentUserId}`;
+    let url = `http://localhost:8080/api/users/feed?currentUserId=${currentUserId}`;
     if(skill) {
       url += `&skill=${skill}`;
     }
