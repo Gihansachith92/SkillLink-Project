@@ -130,6 +130,9 @@ export class Dashboard implements OnInit{
         this.currentUser.bio = response.user.bio;
         this.currentUser.profileImageUrl = response.user.profileImageUrl;
 
+        this.currentUser.skillsOffered = response.user.skillsOffered;
+        this.currentUser.skillsWanted = response.user.skillsWanted;
+
         alert('Profile updated successfully!');
         this.closeEditModal();
 
