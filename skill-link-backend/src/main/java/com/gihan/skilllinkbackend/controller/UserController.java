@@ -45,4 +45,25 @@ public class UserController {
         }
     }
 
+    // GET A SINGLE USER'S FULL PROFILE
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserProfile(@PathVariable Long id){
+        try{
+            User user = userService.getUserById(id);
+
+            return ResponseEntity.ok(Map.of(
+                    "id", user.getId(),
+                    "name", user.getName(),
+                    "email", user.getEmail(),
+                    "university", user.getUniversity(),
+                    "bio", user.getBio() != null ? user.getBio() : "",
+                    "profileImageUrl", user.getProfileImageUrl() != null ? user.getProfileImageUrl() : "",
+                    "skillsOffered", user.getSkillsOffered(),
+                    "skillsWanted", user.getSkillsWanted()
+            ));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
 }
