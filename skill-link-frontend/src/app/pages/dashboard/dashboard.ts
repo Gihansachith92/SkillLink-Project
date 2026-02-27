@@ -25,8 +25,20 @@ export class Dashboard implements OnInit{
         return;
     }
 
+    // Grab the basic ID from local storage
+    const basicUser = this.apiService.getUser();
+
+    // FETCH THE FULL PROFILE FROM JAVA
+    this.apiService.getUserProfile(basicUser.id).subscribe({
+      next: (fullProfile) => {
+        this.currentUser = fullProfile;
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Failed to load full profile', err)
+    });
+
     // 2. Load the user's nametag from Local Storage
-    this.currentUser = this.apiService.getUser();
+    // this.currentUser = this.apiService.getUser();
 
     // 3. Load the matchmaking feed
     this.loadFeed();
@@ -72,6 +84,10 @@ export class Dashboard implements OnInit{
     // 1. Pre-fill the form with your current data so it doesn't start blank
     this.editData.bio = this.currentUser.bio || '';
     this.editData.profileImageUrl = this.currentUser.profileImageUrl || '';
+
+    // Use the spread operator [...] to create a safe copy of existing skills
+    this.editData.skillsOffered = this.currentUser.skillsOffered ? [...this.currentUser.skillsOffered] : [];
+    this.editData.skillsWanted = this.currentUser.skillsWanted ? [...this.currentUser.skillsWanted] : [];
 
     this.isEditModalOpen = true;
     this.cdr.detectChanges();
