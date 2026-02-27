@@ -27,21 +27,28 @@ export class Dashboard implements OnInit{
 
     // Grab the basic ID from local storage
     const basicUser = this.apiService.getUser();
+    this.currentUser = basicUser;
 
     // FETCH THE FULL PROFILE FROM JAVA
     this.apiService.getUserProfile(basicUser.id).subscribe({
       next: (fullProfile) => {
         this.currentUser = fullProfile;
         this.cdr.detectChanges();
+
+        this.loadFeed();
       },
-      error: (err) => console.error('Failed to load full profile', err)
+      error: (err) => {
+        console.error('Failed to load full profile', err);
+        this.loadFeed();
+      }
+        
     });
 
     // 2. Load the user's nametag from Local Storage
     // this.currentUser = this.apiService.getUser();
 
     // 3. Load the matchmaking feed
-    this.loadFeed();
+    // this.loadFeed();
 
   }
 
