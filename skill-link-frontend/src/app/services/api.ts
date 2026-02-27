@@ -50,5 +50,10 @@ export class Api {
     const url = `http://localhost:8080/api/users/${userId}/profile`;
     return this.http.put(url,profileData);
   }
+
+  // --- NEW: FETCH FULL CURRENT USER PROFILE ---
+  getUserProfile(userId: number): Observable<any> {
+    return this.http.get(`http://localhost:8080/api/users/${userId}`);
+  }
   
 }
