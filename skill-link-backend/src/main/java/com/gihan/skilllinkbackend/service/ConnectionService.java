@@ -7,6 +7,7 @@ import com.gihan.skilllinkbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,6 +41,47 @@ public class ConnectionService {
         Connection newConnection = new Connection(sender,receiver,"PENDING");
         return  connectionRepository.save(newConnection);
 
+    }
+
+    // 2. ACCEPT OR DECLINE A REQUEST
+    public Connection updateConnectionStatus(Long connectionId, String newStatus){
+        Connection connection = connectionRepository.findById(connectionId)
+                .orElseThrow(() -> new RuntimeException("Connection request not found"));
+
+        connection.setStatus(newStatus);
+        return connectionRepository.save(connection);
+    }
+
+    // 3. WITHDRAW A SENT REQUEST (Deletes it completely from the database)
+    public void deleteConnection(Long connectionId){
+        connectionRepository.deleteById(connectionId);
+    }
+
+    // 4. GET INCOMING REQUESTS (For the "Incoming" tab)
+    public List<Connection> getIncomingRequests(Long userId){
+        User receiver = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return connectionRepository.findByReceiverAndStatus(receiver, "PENDING");
+    }
+
+    // 5. GET SENT REQUESTS (For the "Sent" tab)
+    public List<Connection> getSentRequests(Long userId){
+        User sender = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return connectionRepository.findBySenderAndStatus(sender, "PENDING");
+    }
+
+    // 6. GET ALL ESTABLISHED CONNECTIONS (For the "My Connections" tab)
+    public List<Connection> getAcceptedConnections(Long userId){
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return connectionRepository.findBySenderAndStatusOrReceiverAndStatus(
+                user, "ACCEPTED",
+                user, "ACCEPTED"
+        );
     }
 
 }
