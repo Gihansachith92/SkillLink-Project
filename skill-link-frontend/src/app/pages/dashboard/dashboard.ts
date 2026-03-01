@@ -222,5 +222,9 @@ export class Dashboard implements OnInit{
 
   }
 
+  goToNetwork() {
+    this.router.navigate(['/network']);
+  }
+
 
 }
