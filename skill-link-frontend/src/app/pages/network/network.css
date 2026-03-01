@@ -1,0 +1,148 @@
+.network-page {
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.network-container {
+  background-color: white;
+  width: 100%;
+  max-width: 600px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  align-self: flex-start;
+}
+
+/* Tab Navigation Styles */
+.tab-header {
+  display: flex;
+  border-bottom: 1px solid #e4e6eb;
+  margin-bottom: 16px;
+}
+
+.tab-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 12px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #65676b;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+}
+
+.tab-btn:hover {
+  background-color: #f2f2f2;
+  border-radius: 6px 6px 0 0;
+}
+
+.tab-btn.active {
+  color: #1877f2;
+  border-bottom: 3px solid #1877f2;
+}
+
+/* Facebook Style Card Layout */
+.request-card {
+  display: flex;
+  align-items: flex-start;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.request-card:last-child {
+  border-bottom: none;
+}
+
+.avatar-section {
+  margin-right: 12px;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #e4e6eb;
+  color: #050505;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.info-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.name-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2px;
+}
+
+.student-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: #050505;
+}
+
+.time-ago {
+  font-size: 13px;
+  color: #65676b;
+}
+
+.university-row {
+  font-size: 13px;
+  color: #65676b;
+  margin-bottom: 12px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+/* The Buttons */
+.btn-primary, .btn-secondary {
+  flex: 1;
+  padding: 8px 0;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-primary {
+  background-color: #1877f2;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #166fe5;
+}
+
+.btn-secondary {
+  background-color: #e4e6eb;
+  color: #050505;
+}
+
+.btn-secondary:hover {
+  background-color: #d8dadf;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 0;
+  color: #65676b;
+  font-weight: 500;
+}
