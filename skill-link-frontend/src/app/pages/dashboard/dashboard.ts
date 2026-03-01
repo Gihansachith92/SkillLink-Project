@@ -157,6 +157,7 @@ export class Dashboard implements OnInit{
 
     // 1. Immediately mark this user as 'Pending' so the button updates instantly
     this.pendingRequests.add(receiverId);
+    this.cdr.detectChanges();
 
     this.connectionService.sendRequest(this.currentUser.id, receiverId).subscribe({
       next: (response) => {
@@ -165,6 +166,7 @@ export class Dashboard implements OnInit{
       error: (error) => {
         console.error('Failed to send request',error);
         this.pendingRequests.delete(receiverId);
+        this.cdr.detectChanges();
         alert("Could not send request. " + (error.error || "Please try again."));
       }
     });
