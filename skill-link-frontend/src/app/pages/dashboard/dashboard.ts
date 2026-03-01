@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Api } from '../../services/api';
 import { Router } from '@angular/router';
+import { Connection } from '../../services/connection';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,8 +16,9 @@ export class Dashboard implements OnInit{
   currentUser: any = null;
   feedUsers: any[] = [];
   searchQuery: string = '';
+  pendingRequests: Set<number> = new Set<number>();
 
-  constructor(private apiService: Api, private router: Router, private cdr: ChangeDetectorRef){}
+  constructor(private apiService: Api, private router: Router, private cdr: ChangeDetectorRef, private connectionService: Connection){}
 
   ngOnInit() {
     // 1. Security Check: Kick them out if they aren't logged in
@@ -143,6 +145,34 @@ export class Dashboard implements OnInit{
         alert('Error saving profile.');
       }
     });
+  }
+
+  sendLinkRequest(receiverId: number) {
+
+    if(!this.currentUser) {
+      alert('You must be logged in to send a request!');
+      return;
+    }
+
+    // 1. Immediately mark this user as 'Pending' so the button updates instantly
+    this.pendingRequests.add(receiverId);
+
+    this.connectionService.sendRequest(this.currentUser.id, receiverId).subscribe({
+      next: (response) => {
+        console.log('Request sent successfully!', response);
+      },
+      error: (error) => {
+        console.error('Failed to send request',error);
+        this.pendingRequests.delete(receiverId);
+        alert("Could not send request. " + (error.error || "Please try again."));
+      }
+    });
+
+  }
+
+  // A helper method for the HTML to check if a button should say "Pending..."
+  isPending(studentId: number): boolean {
+    return this.pendingRequests.has(studentId);
   }
 
 
