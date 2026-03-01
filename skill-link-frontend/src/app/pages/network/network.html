@@ -1,1 +1,62 @@
-<p>network works!</p>
+<div class="network-page">
+  <div class="network-container">
+    
+    <div class="tab-header">
+      <button class="tab-btn" [class.active]="activeTab === 'incoming'" (click)="setTab('incoming')">
+        Incoming ({{ incomingRequests.length }})
+      </button>
+      <button class="tab-btn" [class.active]="activeTab === 'sent'" (click)="setTab('sent')">
+        Sent ({{ sentRequests.length }})
+      </button>
+      <button class="tab-btn" [class.active]="activeTab === 'accepted'" (click)="setTab('accepted')">
+        My Connections ({{ acceptedConnections.length }})
+      </button>
+    </div>
+
+    <div class="requests-list">
+      
+      @for (request of (activeTab === 'incoming' ? incomingRequests : activeTab === 'sent' ? sentRequests : acceptedConnections); track request.id) {
+        
+        <div class="request-card">
+          <div class="avatar-section">
+            <div class="avatar">{{ getOtherUser(request).name.charAt(0) | uppercase }}</div>
+          </div>
+
+          <div class="info-section">
+            <div class="name-row">
+              <span class="student-name">{{ getOtherUser(request).name }}</span>
+              <span class="time-ago">{{ request.createdAt | date:'shortDate' }}</span>
+            </div>
+            
+            <div class="university-row">
+              {{ getOtherUser(request).university || 'University not listed' }}
+            </div>
+
+            <div class="action-buttons">
+              
+              @if (activeTab === 'incoming') {
+                <button class="btn-primary" (click)="acceptRequest(request)">Confirm</button>
+                <button class="btn-secondary" (click)="declineRequest(request.id)">Delete</button>
+              }
+
+              @if (activeTab === 'sent') {
+                <button class="btn-secondary" (click)="withdrawRequest(request.id)">Cancel Request</button>
+              }
+
+              @if (activeTab === 'accepted') {
+                <button class="btn-secondary">Message</button>
+                <button class="btn-secondary">View Profile</button>
+              }
+
+            </div>
+          </div>
+        </div>
+      }
+
+      @if (activeTab === 'incoming' && incomingRequests.length === 0) { <p class="empty-state">No pending requests.</p> }
+      @if (activeTab === 'sent' && sentRequests.length === 0) { <p class="empty-state">No sent requests.</p> }
+      @if (activeTab === 'accepted' && acceptedConnections.length === 0) { <p class="empty-state">You haven't made any connections yet.</p> }
+
+    </div>
+  </div>
+</div>
