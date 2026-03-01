@@ -59,6 +59,7 @@ export class Dashboard implements OnInit{
     this.apiService.getFeed(this.currentUser.id, this.searchQuery).subscribe({
       next: (users) => {
         this.feedUsers = users;
+        this.hideConnectedUsers();
         this.cdr.detectChanges();
       },
       error: (err) => {
@@ -176,6 +177,49 @@ export class Dashboard implements OnInit{
   // A helper method for the HTML to check if a button should say "Pending..."
   isPending(studentId: number): boolean {
     return this.pendingRequests.has(studentId);
+  }
+
+
+  hideConnectedUsers() {
+
+    if(!this.currentUser) return;
+    const myId = this.currentUser.id;
+
+    // 1. Fetch Accepted Friends
+    this.connectionService.getAcceptedConnections(myId).subscribe({
+      next: (accepted) => {
+        // 2. Fetch Requests I Sent (Pending)
+        this.connectionService.getSentRequests(myId).subscribe({
+          next: (sent) => {
+            // 3. Fetch Requests Sent To Me (Pending)
+            this.connectionService.getIncomingRequests(myId).subscribe({
+              next: (incoming) => {
+                // Use a Set to store all the IDs of people we want to hide
+                const hiddenIds = new Set<number>();
+
+                // Add accepted friends (check both sender and receiver to find THEIR id)
+                accepted.forEach((conn: any) => {
+                  hiddenIds.add(conn.sender.id === myId ? conn.receiver.id : conn.sender.id);
+                });
+
+                // Add people I sent requests to
+                sent.forEach((conn: any) => hiddenIds.add(conn.receiver.id));
+
+                // Add people who sent me requests
+                incoming.forEach((conn: any) => hiddenIds.add(conn.sender.id));
+
+                // FILTER THE FEED: Keep only users whose ID is NOT in the hiddenIds list
+                this.feedUsers = this.feedUsers.filter((user: any) => !hiddenIds.has(user.id));
+
+                this.cdr.detectChanges();
+
+              }
+            });
+          }
+        });
+      }
+    });
+
   }
 
 
