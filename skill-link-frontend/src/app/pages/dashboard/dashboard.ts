@@ -9,7 +9,8 @@ import { Connection } from '../../services/connection';
   selector: 'app-dashboard',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './dashboard.html'
+  templateUrl: './dashboard.html',
+  styleUrls: ['./dashboard.css']
 })
 export class Dashboard implements OnInit{
 

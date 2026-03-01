@@ -115,9 +115,12 @@
             </div>
 
             <button
-              class="w-full mt-auto py-2 bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white rounded-md text-sm font-semibold transition-colors duration-200"
+              class="link-btn"
+              (click)="sendLinkRequest(user.id)"
+              [disabled]="isPending(user.id)"
+              [ngClass]="{ 'pending-btn': isPending(user.id) }"
             >
-              Link
+              {{ isPending(user.id) ? 'Pending...' : 'Link' }}
             </button>
           </div>
         }
