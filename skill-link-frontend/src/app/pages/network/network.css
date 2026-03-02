@@ -16,6 +16,30 @@
   align-self: flex-start;
 }
 
+/* back to dashboard */
+/* Back Navigation Styles */
+.back-nav {
+  margin-bottom: 16px;
+}
+
+.btn-back {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: #65676b;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 0;
+  transition: color 0.2s;
+}
+
+.btn-back:hover {
+  color: #1877f2;
+}
+
 /* Tab Navigation Styles */
 .tab-header {
   display: flex;

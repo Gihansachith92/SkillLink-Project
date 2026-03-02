@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Connection } from '../../services/connection';
 import { Api } from '../../services/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-network',
@@ -22,7 +23,8 @@ export class Network implements OnInit{
   constructor(
     private connectionService: Connection,
     private apiService: Api,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -88,6 +90,10 @@ export class Network implements OnInit{
       this.sentRequests = this.sentRequests.filter(req => req.id !== requestId);
       this.cdr.detectChanges();
     });
+  }
+
+  goToDashboard() {
+    this.router.navigate(['/dashboard']);
   }
 
 
