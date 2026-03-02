@@ -170,3 +170,21 @@
   color: #65676b;
   font-weight: 500;
 }
+
+
+/* Skill Badges for Accepted Connections */
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.skill-badge {
+  background-color: #e6f2ff; /* A soft, professional blue tint */
+  color: #1877f2;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
+}

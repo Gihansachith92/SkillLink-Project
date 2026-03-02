@@ -96,5 +96,17 @@ export class Network implements OnInit{
     this.router.navigate(['/dashboard']);
   }
 
+  disconnectUser(connectionId: number) {
+    if(confirm("Are you sure you want to remove this connection?")) {
+      this.connectionService.withdrawRequest(connectionId).subscribe({
+        next: () => {
+          this.acceptedConnections =  this.acceptedConnections.filter(conn => conn.id !== connectionId);
+          this.cdr.detectChanges();
+        },
+        error: (err) => console.error('Failed to disconnect', err)
+      });
+    }
+  }
+
 
 }

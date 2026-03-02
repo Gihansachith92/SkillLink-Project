@@ -42,6 +42,14 @@
               {{ getOtherUser(request).university || 'University not listed' }}
             </div>
 
+            @if (activeTab === 'accepted' && getOtherUser(request).skillsOffered?.length > 0) {
+              <div class="skills-container">
+                @for (skill of getOtherUser(request).skillsOffered; track skill) {
+                  <span class="skill-badge">{{ skill }}</span>
+                }
+              </div>
+            }
+
             <div class="action-buttons">
               
               @if (activeTab === 'incoming') {
@@ -54,11 +62,12 @@
               }
 
               @if (activeTab === 'accepted') {
-                <button class="btn-secondary">Message</button>
-                <button class="btn-secondary">View Profile</button>
+                <button class="btn-primary">Message</button>
+                <button class="btn-secondary" (click)="disconnectUser(request.id)">Disconnect</button>
               }
 
             </div>
+
           </div>
         </div>
       }
