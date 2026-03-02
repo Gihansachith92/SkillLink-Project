@@ -15,6 +15,7 @@ import { Connection } from '../../services/connection';
 export class Dashboard implements OnInit{
 
   currentUser: any = null;
+  pendingCount: number = 0;
   feedUsers: any[] = [];
   searchQuery: string = '';
   pendingRequests: Set<number> = new Set<number>();
@@ -55,11 +56,26 @@ export class Dashboard implements OnInit{
 
   }
 
+  loadPendingCount() {
+    if(!this.currentUser) return;
+
+    this.connectionService.getIncomingRequests(this.currentUser.id).subscribe({
+      next: (requests: any[]) => {
+        this.pendingCount = requests.length;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Failed to load pending count', err);
+      }
+    });
+  }
+
   loadFeed() {
     this.apiService.getFeed(this.currentUser.id, this.searchQuery).subscribe({
       next: (users) => {
         this.feedUsers = users;
         this.hideConnectedUsers();
+        this.loadPendingCount();
         this.cdr.detectChanges();
       },
       error: (err) => {
