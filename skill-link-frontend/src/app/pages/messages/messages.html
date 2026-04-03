@@ -1,1 +1,46 @@
-<p>messages works!</p>
+<div class="messages-page">
+  <div class="chat-container">
+    
+    <div class="chat-header">
+      <button class="btn-back" (click)="goBack()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </button>
+      
+      <div class="partner-info">
+        @if (chatPartner) {
+          <div class="avatar">{{ chatPartner.name.charAt(0) | uppercase }}</div>
+          <div class="details">
+            <h2>{{ chatPartner.name }}</h2>
+            <span class="status">Connected</span>
+          </div>
+        } @else {
+          <h2>Loading...</h2>
+        }
+      </div>
+    </div>
+
+    <div class="chat-history" #chatScroll>
+      @if (messages.length === 0) {
+        <div class="empty-state">
+          <p>Send a message to start the conversation.</p>
+        </div>
+      }
+      
+      @for (msg of messages; track msg.id) {
+        <div class="message-bubble" [ngClass]="{'my-message': msg.senderId === currentUser.id, 'their-message': msg.senderId !== currentUser.id}">
+          <p class="content">{{ msg.content }}</p>
+          <span class="time">{{ msg.createdAt | date:'shortTime' }}</span>
+        </div>
+      }
+    </div>
+
+    <div class="chat-input-area">
+      <input type="text" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" placeholder="Type a message..." class="message-input">
+      <button class="btn-send" (click)="sendMessage()">Send</button>
+    </div>
+
+  </div>
+</div>
