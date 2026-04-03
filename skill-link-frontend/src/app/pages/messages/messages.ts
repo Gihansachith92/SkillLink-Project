@@ -94,7 +94,54 @@ export class Messages implements OnInit, OnDestroy{
       debug: (str) => console.log(str)
     });
 
-    this.stompClient
+    this.stompClient.onConnect = (frame) => {
+      console.log('Connected to Chat Server: ' + frame);
+
+      // Subscribe to your private inbox!
+      this.stompClient.subscribe(`/user/${this.currentUser.id}/queue/messages`, (message) => {
+        if (message.body) {
+          const parsedMessage = JSON.parse(message.body);
+          this.messages.push(parsedMessage);
+          this.cdr.detectChanges();
+          this.scrollToBottom();
+        }
+      });
+    };
+
+    this.stompClient.activate();
+  }
+
+  sendMessage() {
+    if (!this.newMessage.trim() || !this.stompClient || !this.stompClient.connected) return;
+    
+    const messagePayload = {
+      senderId: this.currentUser.id,
+      receiverId: this.chatPartnerId,
+      content: this.newMessage
+    };
+
+    // Send the message to the Spring Boot /app/chat endpoint
+    this.stompClient.publish({
+      destination: '/app/chat',
+      body: JSON.stringify(messagePayload)
+    });
+
+    this.newMessage = '';
+    this.cdr.detectChanges();
+
+  }
+
+  // Helper function to keep the chat scrolled to the newest message
+  scrollToBottom() {
+    setTimeout(() => {
+      if(this.chatScrollContainer) {
+        this.chatScrollContainer.nativeElement.scrollTop = this.chatScrollContainer.nativeElement.scrollHeight;
+      }
+    }, 100);
+  }
+
+  goBack() {
+    this.router.navigate(['/network']);
   }
 
 }
