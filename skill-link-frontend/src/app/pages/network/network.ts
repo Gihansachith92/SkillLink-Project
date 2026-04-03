@@ -108,5 +108,9 @@ export class Network implements OnInit{
     }
   }
 
+  goToMessages(userId: number) {
+    this.router.navigate(['/messages', userId]);
+  }
+
 
 }

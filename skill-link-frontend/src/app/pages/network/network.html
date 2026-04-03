@@ -62,7 +62,7 @@
               }
 
               @if (activeTab === 'accepted') {
-                <button class="btn-primary">Message</button>
+                <button class="btn-primary" (click)="goToMessages(getOtherUser(request).id)">Message</button>
                 <button class="btn-secondary" (click)="disconnectUser(request.id)">Disconnect</button>
               }
 
