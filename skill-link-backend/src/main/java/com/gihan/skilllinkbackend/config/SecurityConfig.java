@@ -26,6 +26,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/users/**").permitAll()
                         .requestMatchers("/api/connections/**").permitAll()
                         .requestMatchers("/ws/**").permitAll()
+                        .requestMatchers("/api/messages/**").permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();

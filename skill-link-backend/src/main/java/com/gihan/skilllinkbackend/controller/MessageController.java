@@ -25,14 +25,16 @@ public class MessageController {
     private MessageRepository messageRepository;
 
     @MessageMapping("/chat")
-    public void processMessage(@Payload Message chatMessage){
+    public void processMessage(@Payload Message chatMessage) {
+
+        // Step A: Save the message permanently to PostgreSQL
         Message savedMessage = messageRepository.save(chatMessage);
 
-        messagingTemplate.convertAndSendToUser(
-                String.valueOf(chatMessage.getSenderId()),
-                "/queue/messages",
-                savedMessage
-        );
+        // Step B: Send to the RECEIVER'S specific topic
+        messagingTemplate.convertAndSend("/topic/messages/" + chatMessage.getReceiverId(), savedMessage);
+
+        // Step C: Send to the SENDER'S specific topic (so their own screen updates)
+        messagingTemplate.convertAndSend("/topic/messages/" + chatMessage.getSenderId(), savedMessage);
     }
 
     @GetMapping("/api/messages/{user1Id}/{user2Id}")
