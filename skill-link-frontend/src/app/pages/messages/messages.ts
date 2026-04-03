@@ -98,7 +98,7 @@ export class Messages implements OnInit, OnDestroy{
       console.log('Connected to Chat Server: ' + frame);
 
       // Subscribe to your private inbox!
-      this.stompClient.subscribe(`/user/${this.currentUser.id}/queue/messages`, (message) => {
+      this.stompClient.subscribe(`/topic/messages/${this.currentUser.id}`, (message) => {
         if (message.body) {
           const parsedMessage = JSON.parse(message.body);
           this.messages.push(parsedMessage);
