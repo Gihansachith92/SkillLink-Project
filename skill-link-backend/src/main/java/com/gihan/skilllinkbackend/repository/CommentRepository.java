@@ -1,6 +1,7 @@
 package com.gihan.skilllinkbackend.repository;
 
 import com.gihan.skilllinkbackend.model.Comment;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,4 +12,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     // Fetches comments for a specific post, oldest first (like a standard chat thread)
     List<Comment> findByPostIdOrderByCreatedAtAsc(Long postId);
+
+    @Transactional
+    void deleteAllByAuthorId(Long authorId);
 }

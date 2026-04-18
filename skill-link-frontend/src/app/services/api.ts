@@ -61,5 +61,10 @@ export class Api {
     // Make sure this matches your actual backend URL pattern!
     return this.http.get<any[]>('http://localhost:8080/api/users/all');
   }
+
+  // Obliterates a user account
+  deleteUserAccount(userId: number) {
+    return this.http.delete(`http://localhost:8080/api/users/delete/${userId}`);
+  }
   
 }

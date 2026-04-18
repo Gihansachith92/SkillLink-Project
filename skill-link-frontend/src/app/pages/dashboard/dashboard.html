@@ -449,20 +449,19 @@
           </div>
         </div>
 
-        <div class="px-8 py-5 border-t border-gray-100 bg-white flex justify-end space-x-4">
-          <button
-            (click)="closeEditModal()"
-            class="px-6 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-xl text-sm font-bold hover:bg-gray-50 transition-colors shadow-sm"
-          >
-            Cancel
+        <div class="px-8 py-5 border-t border-gray-100 bg-white flex justify-between items-center">
+          
+          <button (click)="deleteAccount()" class="text-sm font-bold text-red-500 hover:text-red-700 transition-colors px-4 py-2 rounded-xl hover:bg-red-50">
+            Delete Account
           </button>
-          <button
-            (click)="saveProfile()"
-            class="px-6 py-2.5 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800 transition-all shadow-md shadow-gray-900/20 active:scale-95"
-          >
-            Save Profile
-          </button>
+
+          <div class="flex space-x-4">
+            <button (click)="closeEditModal()" class="px-6 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-xl text-sm font-bold hover:bg-gray-50 transition-colors shadow-sm">Cancel</button>
+            <button (click)="saveProfile()" class="px-6 py-2.5 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800 transition-all shadow-md shadow-gray-900/20 active:scale-95">Save Profile</button>
+          </div>
+          
         </div>
+
       </div>
     </div>
   }

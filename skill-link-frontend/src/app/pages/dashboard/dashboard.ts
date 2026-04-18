@@ -303,7 +303,7 @@ export class Dashboard implements OnInit {
 
   // Deletes the post from the database and the screen
   deletePost(postId: number) {
-    if (confirm('My Lord, are you sure you wish to delete this post?')) {
+    if (confirm('Warning, are you sure you wish to delete this post?')) {
       this.http.delete(`http://localhost:8080/api/posts/delete/${postId}`).subscribe({
         next: () => {
           // Remove the post from the screen instantly without refreshing
@@ -314,7 +314,24 @@ export class Dashboard implements OnInit {
     }
   }
 
-
+  // Triggers the account deletion process
+  deleteAccount() {
+    const confirmDelete = confirm('DANGER, Are you absolutely sure you want to delete your account? This action cannot be undone and will erase all your posts, messages, and connections.');
+    
+    if (confirmDelete && this.currentUser) {
+      this.apiService.deleteUserAccount(this.currentUser.id).subscribe({
+        next: () => {
+          alert('Account successfully deleted from the SkillLink.');
+          this.closeEditModal();
+          this.logout(); // Instantly log them out and route to login
+        },
+        error: (err) => {
+          console.error('Failed to delete account', err);
+          alert('Could not delete account. Please check the console for details.');
+        }
+      });
+    }
+  }
 
 
 }

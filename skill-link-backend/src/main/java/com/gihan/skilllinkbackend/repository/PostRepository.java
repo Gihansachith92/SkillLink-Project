@@ -1,6 +1,7 @@
 package com.gihan.skilllinkbackend.repository;
 
 import com.gihan.skilllinkbackend.model.Post;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,5 +13,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     // This custom command tells PostgreSQL to sort the feed from newest to oldest!
     List<Post> findAllByOrderByCreatedAtDesc();
+
+    @Transactional
+    void deleteAllByAuthorId(Long authorId);
 
 }

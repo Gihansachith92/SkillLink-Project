@@ -3,8 +3,9 @@ package com.gihan.skilllinkbackend.controller;
 import com.gihan.skilllinkbackend.dto.UpdateProfileRequest;
 import com.gihan.skilllinkbackend.dto.UserSummaryResponse;
 import com.gihan.skilllinkbackend.model.User;
-import com.gihan.skilllinkbackend.repository.UserRepository;
+import com.gihan.skilllinkbackend.repository.*;
 import com.gihan.skilllinkbackend.service.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,18 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PostRepository postRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
+
+    @Autowired
+    private ConnectionRepository connectionRepository;
+
+    @Autowired
+    private MessageRepository messageRepository;
 
     @PutMapping("/{id}/profile")
     public ResponseEntity<?> updateProfile(@PathVariable  Long id, @RequestBody UpdateProfileRequest request){
@@ -74,6 +87,28 @@ public class UserController {
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userRepository.findAll();
         return ResponseEntity.ok(users);
+    }
+
+    @Transactional
+    @DeleteMapping("/delete/{userId}")
+    public ResponseEntity<Void> deleteUserAccount(@PathVariable Long userId) {
+
+        // 1. Erase all their comments
+        commentRepository.deleteAllByAuthorId(userId);
+
+        // 2. Erase all their posts
+        postRepository.deleteAllByAuthorId(userId);
+
+        // 3. Erase all their connections and requests
+        connectionRepository.deleteAllBySenderIdOrReceiverId(userId, userId);
+
+        // 4. Erase all their chat messages
+        messageRepository.deleteAllBySenderIdOrReceiverId(userId, userId);
+
+        // 5. Finally, obliterate the User record
+        userRepository.deleteById(userId);
+
+        return ResponseEntity.ok().build();
     }
 
 }

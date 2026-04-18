@@ -2,6 +2,7 @@ package com.gihan.skilllinkbackend.repository;
 
 import com.gihan.skilllinkbackend.model.Connection;
 import com.gihan.skilllinkbackend.model.User;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -25,5 +26,8 @@ public interface ConnectionRepository extends JpaRepository<Connection, Long> {
             User sender, String status1,
             User receiver, String status2
     );
+
+    @Transactional
+    void deleteAllBySenderIdOrReceiverId(Long senderId, Long receiverId);
 
 }
