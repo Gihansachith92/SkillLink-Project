@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Api } from '../../services/api';
 import { Router } from '@angular/router';
 import { Connection } from '../../services/connection';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,8 +20,13 @@ export class Dashboard implements OnInit{
   feedUsers: any[] = [];
   searchQuery: string = '';
   pendingRequests: Set<number> = new Set<number>();
+  // --- New Campus Feed Variables ---
+  posts: any[] = [];
+  newPostContent: string = '';
+  newPostGithubLink: string = '';
+  showGithubInput: boolean = false;
 
-  constructor(private apiService: Api, private router: Router, private cdr: ChangeDetectorRef, private connectionService: Connection){}
+  constructor(private apiService: Api, private router: Router, private cdr: ChangeDetectorRef, private connectionService: Connection, private http: HttpClient){}
 
   ngOnInit() {
     // 1. Security Check: Kick them out if they aren't logged in
@@ -40,10 +46,12 @@ export class Dashboard implements OnInit{
         this.cdr.detectChanges();
 
         this.loadFeed();
+        this.loadCampusFeed();
       },
       error: (err) => {
         console.error('Failed to load full profile', err);
         this.loadFeed();
+        this.loadCampusFeed();
       }
         
     });
@@ -240,6 +248,45 @@ export class Dashboard implements OnInit{
 
   goToNetwork() {
     this.router.navigate(['/network']);
+  }
+
+
+  // ==========================================
+  // NEW LOGIC: DIGITAL CAMPUS FEED
+  // ==========================================
+  loadCampusFeed() {
+    this.http.get<any[]>('http://localhost:8080/api/posts/feed').subscribe({
+      next: (data) => {
+        this.posts = data;
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Failed to load feed', err)
+    });
+  }
+
+  toggleGithubInput() {
+    this.showGithubInput = !this.showGithubInput;
+  }
+
+  publishPost() {
+    if (!this.newPostContent.trim()) return;
+
+    const postPayload = {
+      authorId: this.currentUser.id,
+      content: this.newPostContent,
+      githubLink: this.newPostGithubLink
+    };
+
+    this.http.post<any>('http://localhost:8080/api/posts/create', postPayload).subscribe({
+      next: (savedPost) => {
+        this.posts.unshift(savedPost); // Instantly add to top of feed
+        this.newPostContent = '';
+        this.newPostGithubLink = '';
+        this.showGithubInput = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Failed to publish post', err)
+    });
   }
 
 
