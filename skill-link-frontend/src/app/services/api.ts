@@ -55,5 +55,11 @@ export class Api {
   getUserProfile(userId: number): Observable<any> {
     return this.http.get(`http://localhost:8080/api/users/${userId}`);
   }
+
+  // Fetches a list of all students to build the post author dictionary
+  getAllUsers() {
+    // Make sure this matches your actual backend URL pattern!
+    return this.http.get<any[]>('http://localhost:8080/api/users/all');
+  }
   
 }
