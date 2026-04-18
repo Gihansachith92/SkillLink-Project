@@ -116,6 +116,12 @@ export class Dashboard implements OnInit {
 
   isEditModalOpen: boolean = false;
 
+  isMobileMenuOpen: boolean = false;
+
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
   editData = {
     bio: '',
     profileImageUrl: '',
