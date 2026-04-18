@@ -61,4 +61,10 @@ public class PostController {
         return ResponseEntity.ok(savedComment);
     }
 
+    @DeleteMapping("/delete/{postId}")
+    public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
+        postRepository.deleteById(postId);
+        return ResponseEntity.ok().build();
+    }
+
 }
