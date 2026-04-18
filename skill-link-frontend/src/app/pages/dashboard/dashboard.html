@@ -100,32 +100,51 @@
     </div>
 
     <!-- new feed and connection section -->
-     <div class="lg:col-span-2 flex flex-col gap-6">
-      
+    <div class="lg:col-span-2 flex flex-col gap-6">
       <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
         <div class="flex gap-3">
-          <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold flex-shrink-0">
+          <div
+            class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold flex-shrink-0"
+          >
             {{ currentUser?.name?.charAt(0) || 'U' }}
           </div>
-          <textarea 
-            [(ngModel)]="newPostContent" 
-            placeholder="What are you working on, {{ currentUser?.name?.split(' ')[0] }}?" 
-            class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none min-h-[80px] text-sm">
+          <textarea
+            [(ngModel)]="newPostContent"
+            placeholder="What are you working on, {{ currentUser?.name?.split(' ')[0] }}?"
+            class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none min-h-[80px] text-sm"
+          >
           </textarea>
         </div>
-        
+
         @if (showGithubInput) {
           <div class="mt-3 ml-13">
-            <input type="text" [(ngModel)]="newPostGithubLink" placeholder="Paste GitHub Repository URL..." class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-blue-500">
+            <input
+              type="text"
+              [(ngModel)]="newPostGithubLink"
+              placeholder="Paste GitHub Repository URL..."
+              class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-blue-500"
+            />
           </div>
         }
 
         <div class="flex justify-between items-center mt-3 pt-3 border-t border-gray-100 pl-13">
-          <button (click)="toggleGithubInput()" class="flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-gray-800">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          <button
+            (click)="toggleGithubInput()"
+            class="flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-gray-800"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+              />
+            </svg>
             Attach Code
           </button>
-          <button (click)="publishPost()" class="px-4 py-1.5 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700">Post</button>
+          <button
+            (click)="publishPost()"
+            class="px-4 py-1.5 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700"
+          >
+            Post
+          </button>
         </div>
       </div>
 
@@ -135,46 +154,72 @@
 
       @for (post of posts; track post.id) {
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
-          
           <div class="flex items-center gap-3 mb-3 relative">
-            
             @if (getPostAuthor(post.authorId).profileImageUrl) {
-              <img [src]="getPostAuthor(post.authorId).profileImageUrl" class="w-10 h-10 rounded-full object-cover" />
+              <img
+                [src]="getPostAuthor(post.authorId).profileImageUrl"
+                class="w-10 h-10 rounded-full object-cover"
+              />
             } @else {
-              <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg">
+              <div
+                class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg"
+              >
                 {{ getPostAuthor(post.authorId).name.charAt(0) | uppercase }}
               </div>
             }
-            
+
             <div>
-              <h4 class="text-sm font-bold text-gray-900">{{ getPostAuthor(post.authorId).name }}</h4>
-              <p class="text-xs text-gray-500">{{ post.createdAt | date:'short' }}</p>
+              <h4 class="text-sm font-bold text-gray-900">
+                {{ getPostAuthor(post.authorId).name }}
+              </h4>
+              <p class="text-xs text-gray-500">{{ post.createdAt | date: 'short' }}</p>
             </div>
 
             @if (post.authorId === currentUser.id) {
-              <button (click)="deletePost(post.id)" class="absolute top-0 right-0 text-gray-300 hover:text-red-500 transition-colors" title="Delete Post">
+              <button
+                (click)="deletePost(post.id)"
+                class="absolute top-0 right-0 text-gray-300 hover:text-red-500 transition-colors"
+                title="Delete Post"
+              >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  />
                 </svg>
               </button>
             }
           </div>
-          
+
           <p class="text-gray-800 text-sm whitespace-pre-wrap mb-4">{{ post.content }}</p>
 
           @if (post.githubLink) {
-            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div
+              class="bg-gray-50 border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+            >
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-3">
                   <div class="bg-gray-900 p-2 rounded-md">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                      <path
+                        d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                      />
+                    </svg>
                   </div>
                   <div>
                     <h5 class="text-sm font-bold text-gray-900">GitHub Repository</h5>
-                    <p class="text-xs text-gray-500 truncate max-w-[250px]">{{ post.githubLink }}</p>
+                    <p class="text-xs text-gray-500 truncate max-w-[250px]">
+                      {{ post.githubLink }}
+                    </p>
                   </div>
                 </div>
-                <a [href]="post.githubLink" target="_blank" class="px-4 py-2 bg-white border border-gray-300 rounded-md text-xs font-bold text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors shadow-sm">
+                <a
+                  [href]="post.githubLink"
+                  target="_blank"
+                  class="px-4 py-2 bg-white border border-gray-300 rounded-md text-xs font-bold text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors shadow-sm"
+                >
                   View Code
                 </a>
               </div>
@@ -182,21 +227,26 @@
           }
         </div>
       }
-
-
     </div>
 
     <div class="lg:col-span-1">
       <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 sticky top-24">
-        <h3 class="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">Suggested Connections</h3>
-        
+        <h3 class="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">
+          Suggested Connections
+        </h3>
+
         <div class="flex flex-col gap-4">
           @for (user of feedUsers; track user.id) {
             <div class="flex gap-3 items-start">
               @if (user.profileImageUrl) {
-                <img [src]="user.profileImageUrl" class="w-10 h-10 rounded-full object-cover flex-shrink-0" />
+                <img
+                  [src]="user.profileImageUrl"
+                  class="w-10 h-10 rounded-full object-cover flex-shrink-0"
+                />
               } @else {
-                <div class="w-10 h-10 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center font-bold flex-shrink-0 text-sm">
+                <div
+                  class="w-10 h-10 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center font-bold flex-shrink-0 text-sm"
+                >
                   {{ user.name.charAt(0) }}
                 </div>
               }
@@ -207,7 +257,11 @@
                   class="text-xs font-semibold px-3 py-1 rounded-full border border-blue-600 w-full text-center transition-colors"
                   (click)="sendLinkRequest(user.id)"
                   [disabled]="isPending(user.id)"
-                  [ngClass]="isPending(user.id) ? 'bg-gray-100 text-gray-500 border-gray-300' : 'text-blue-600 hover:bg-blue-50'"
+                  [ngClass]="
+                    isPending(user.id)
+                      ? 'bg-gray-100 text-gray-500 border-gray-300'
+                      : 'text-blue-600 hover:bg-blue-50'
+                  "
                 >
                   {{ isPending(user.id) ? 'Pending' : 'Link' }}
                 </button>
@@ -222,133 +276,189 @@
       </div>
     </div>
     <!-- end -->
-
-
   </div>
 
   <!-- side bar start -->
   @if (isEditModalOpen) {
     <div
-      class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-[100] flex items-center justify-center p-4 transition-all duration-300"
+      class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[100] flex items-center justify-center p-4 animate-fade-in"
     >
       <div
-        class="bg-white rounded-xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]"
+        class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh] border border-gray-100 animate-scale-up"
       >
-        <div
-          class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50"
-        >
-          <h3 class="text-lg font-bold text-gray-900">Edit Your Profile</h3>
+        <div class="px-8 py-5 border-b border-gray-100 flex justify-between items-center bg-white">
+          <h3 class="text-xl font-bold text-gray-900 tracking-tight">Edit Your Profile</h3>
           <button
             (click)="closeEditModal()"
-            class="text-gray-400 hover:text-red-500 font-bold text-xl"
+            class="text-gray-400 hover:text-gray-700 transition-colors rounded-full p-1.5 hover:bg-gray-100"
           >
-            &times;
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
           </button>
         </div>
 
-        <div class="p-6 overflow-y-auto flex-1">
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Profile Image URL</label>
-            <input
-              type="text"
-              [(ngModel)]="editData.profileImageUrl"
-              placeholder="Paste an image link..."
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-sm"
-            />
-            <p class="text-xs text-gray-500 mt-1">
-              Tip: Try https://api.dicebear.com/7.x/avataaars/svg?seed=YourName
+        <div class="p-8 overflow-y-auto flex-1 space-y-6 bg-gray-50/50">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1.5"
+              >Profile Image URL</label
+            >
+            <div class="relative">
+              <div
+                class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400"
+              >
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  ></path>
+                </svg>
+              </div>
+              <input
+                type="text"
+                [(ngModel)]="editData.profileImageUrl"
+                placeholder="Paste image link here..."
+                class="w-full pl-11 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm transition-all shadow-sm"
+              />
+            </div>
+            <p class="text-xs text-gray-500 mt-2 pl-1">
+              Tip: Try
+              <span class="text-blue-500 font-medium"
+                >https://api.dicebear.com/7.x/avataaars/svg?seed={{
+                  currentUser?.name?.split(' ')[0] || 'Admin'
+                }}</span
+              >
             </p>
           </div>
 
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-1">About Me (Bio)</label>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1.5">About Me</label>
             <textarea
               [(ngModel)]="editData.bio"
               rows="3"
-              placeholder="Tell students about yourself..."
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-sm"
+              placeholder="Tell the campus about yourself..."
+              class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm transition-all shadow-sm resize-none"
             ></textarea>
           </div>
 
-          <div class="mb-4 bg-green-50 p-4 rounded-lg border border-green-100">
-            <label class="block text-sm font-bold text-green-800 mb-1">Skills I Can Teach</label>
-            <div class="flex space-x-2 mb-2">
-              <input
-                type="text"
-                [(ngModel)]="newSkillOffered"
-                (keyup.enter)="addSkill('offered')"
-                placeholder="e.g. Java, Figma (Press Enter)"
-                class="flex-1 px-3 py-1.5 border border-green-200 rounded-md focus:ring-green-500 focus:border-green-500 text-sm"
-              />
-              <button
-                (click)="addSkill('offered')"
-                class="px-3 py-1.5 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700"
-              >
-                Add
-              </button>
-            </div>
-            <div class="flex flex-wrap gap-2">
-              @for (skill of editData.skillsOffered; track $index) {
-                <span
-                  class="px-2 py-1 bg-green-200 text-green-800 text-xs rounded-md font-medium flex items-center"
+          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div class="bg-white p-5 rounded-2xl border border-green-100 shadow-sm">
+              <label class="flex items-center gap-2 text-sm font-bold text-gray-900 mb-4">
+                <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                I Can Teach
+              </label>
+              <div class="flex space-x-2 mb-4">
+                <input
+                  type="text"
+                  [(ngModel)]="newSkillOffered"
+                  (keyup.enter)="addSkill('offered')"
+                  placeholder="e.g. Java"
+                  class="flex-1 px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500/20 focus:border-green-500 text-sm transition-all"
+                />
+                <button
+                  (click)="addSkill('offered')"
+                  class="px-4 py-2 bg-green-50 text-green-700 border border-green-200 hover:bg-green-100 rounded-lg text-sm font-bold transition-colors"
                 >
-                  {{ skill }}
-                  <button
-                    (click)="removeSkill('offered', $index)"
-                    class="ml-1 text-green-600 hover:text-green-900 font-bold"
+                  Add
+                </button>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                @for (skill of editData.skillsOffered; track $index) {
+                  <span
+                    class="px-3 py-1.5 bg-white border border-green-200 text-green-700 text-xs rounded-full font-semibold flex items-center gap-1.5 shadow-sm hover:border-green-300 transition-colors cursor-default"
                   >
-                    &times;
-                  </button>
-                </span>
-              }
+                    {{ skill }}
+                    <button
+                      (click)="removeSkill('offered', $index)"
+                      class="text-green-400 hover:text-green-700 transition-colors"
+                    >
+                      <svg
+                        class="w-3.5 h-3.5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        ></path>
+                      </svg>
+                    </button>
+                  </span>
+                }
+              </div>
             </div>
-          </div>
 
-          <div class="mb-2 bg-blue-50 p-4 rounded-lg border border-blue-100">
-            <label class="block text-sm font-bold text-blue-800 mb-1">Skills I Want to Learn</label>
-            <div class="flex space-x-2 mb-2">
-              <input
-                type="text"
-                [(ngModel)]="newSkillWanted"
-                (keyup.enter)="addSkill('wanted')"
-                placeholder="e.g. Angular, UI Design (Press Enter)"
-                class="flex-1 px-3 py-1.5 border border-blue-200 rounded-md focus:ring-blue-500 focus:border-blue-500 text-sm"
-              />
-              <button
-                (click)="addSkill('wanted')"
-                class="px-3 py-1.5 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700"
-              >
-                Add
-              </button>
-            </div>
-            <div class="flex flex-wrap gap-2">
-              @for (skill of editData.skillsWanted; track $index) {
-                <span
-                  class="px-2 py-1 bg-blue-200 text-blue-800 text-xs rounded-md font-medium flex items-center"
+            <div class="bg-white p-5 rounded-2xl border border-blue-100 shadow-sm">
+              <label class="flex items-center gap-2 text-sm font-bold text-gray-900 mb-4">
+                <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                I Want to Learn
+              </label>
+              <div class="flex space-x-2 mb-4">
+                <input
+                  type="text"
+                  [(ngModel)]="newSkillWanted"
+                  (keyup.enter)="addSkill('wanted')"
+                  placeholder="e.g. Figma"
+                  class="flex-1 px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm transition-all"
+                />
+                <button
+                  (click)="addSkill('wanted')"
+                  class="px-4 py-2 bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 rounded-lg text-sm font-bold transition-colors"
                 >
-                  {{ skill }}
-                  <button
-                    (click)="removeSkill('wanted', $index)"
-                    class="ml-1 text-blue-600 hover:text-blue-900 font-bold"
+                  Add
+                </button>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                @for (skill of editData.skillsWanted; track $index) {
+                  <span
+                    class="px-3 py-1.5 bg-white border border-blue-200 text-blue-700 text-xs rounded-full font-semibold flex items-center gap-1.5 shadow-sm hover:border-blue-300 transition-colors cursor-default"
                   >
-                    &times;
-                  </button>
-                </span>
-              }
+                    {{ skill }}
+                    <button
+                      (click)="removeSkill('wanted', $index)"
+                      class="text-blue-400 hover:text-blue-700 transition-colors"
+                    >
+                      <svg
+                        class="w-3.5 h-3.5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        ></path>
+                      </svg>
+                    </button>
+                  </span>
+                }
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="px-6 py-4 border-t border-gray-200 bg-gray-50 flex justify-end space-x-3">
+        <div class="px-8 py-5 border-t border-gray-100 bg-white flex justify-end space-x-4">
           <button
             (click)="closeEditModal()"
-            class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-md text-sm font-medium hover:bg-gray-50"
+            class="px-6 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-xl text-sm font-bold hover:bg-gray-50 transition-colors shadow-sm"
           >
             Cancel
           </button>
           <button
             (click)="saveProfile()"
-            class="px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700"
+            class="px-6 py-2.5 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-gray-800 transition-all shadow-md shadow-gray-900/20 active:scale-95"
           >
             Save Profile
           </button>
@@ -356,5 +466,6 @@
       </div>
     </div>
   }
+
   <!-- sidebar end -->
 </div>
