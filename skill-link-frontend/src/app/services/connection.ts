@@ -15,7 +15,7 @@ export interface ConnectionModel{
 })
 export class Connection {
 
-  private apiUrl = 'http://localhost:8080/api/connections';
+  private apiUrl = 'https://skilllink-api-gjbcgzabb5c5fnbe.eastasia-01.azurewebsites.net/api/connections';
 
   constructor(private http: HttpClient) {}
 

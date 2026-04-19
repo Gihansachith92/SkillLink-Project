@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 
 export class Api {
-  private baseUrl = 'http://localhost:8080/api/auth';
+  private baseUrl = 'https://skilllink-api-gjbcgzabb5c5fnbe.eastasia-01.azurewebsites.net/api/auth';
 
   constructor(private http: HttpClient){}
 
@@ -39,7 +39,7 @@ export class Api {
 
   // new Feed and Search method
   getFeed(currentUserId: number, skill?: string): Observable<any>{
-    let url = `http://localhost:8080/api/users/feed?currentUserId=${currentUserId}`;
+    let url = `https://skilllink-api-gjbcgzabb5c5fnbe.eastasia-01.azurewebsites.net/api/users/feed?currentUserId=${currentUserId}`;
     if(skill) {
       url += `&skill=${skill}`;
     }
@@ -47,24 +47,24 @@ export class Api {
   }
 
   updateProfile(userId: number, profileData: any): Observable<any> {
-    const url = `http://localhost:8080/api/users/${userId}/profile`;
+    const url = `https://skilllink-api-gjbcgzabb5c5fnbe.eastasia-01.azurewebsites.net/api/users/${userId}/profile`;
     return this.http.put(url,profileData);
   }
 
   // --- NEW: FETCH FULL CURRENT USER PROFILE ---
   getUserProfile(userId: number): Observable<any> {
-    return this.http.get(`http://localhost:8080/api/users/${userId}`);
+    return this.http.get(`https://skilllink-api-gjbcgzabb5c5fnbe.eastasia-01.azurewebsites.net/api/users/${userId}`);
   }
 
   // Fetches a list of all students to build the post author dictionary
   getAllUsers() {
     // Make sure this matches your actual backend URL pattern!
-    return this.http.get<any[]>('http://localhost:8080/api/users/all');
+    return this.http.get<any[]>('https://skilllink-api-gjbcgzabb5c5fnbe.eastasia-01.azurewebsites.net/api/users/all');
   }
 
   // Obliterates a user account
   deleteUserAccount(userId: number) {
-    return this.http.delete(`http://localhost:8080/api/users/delete/${userId}`);
+    return this.http.delete(`https://skilllink-api-gjbcgzabb5c5fnbe.eastasia-01.azurewebsites.net/api/users/delete/${userId}`);
   }
   
 }

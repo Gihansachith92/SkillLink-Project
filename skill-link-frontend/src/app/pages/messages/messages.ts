@@ -74,7 +74,7 @@ export class Messages implements OnInit, OnDestroy{
 
   loadChatHistory() {
     if(!this.chatPartnerId) return;
-    this.http.get<any[]>(`http://localhost:8080/api/messages/${this.currentUser.id}/${this.chatPartnerId}`)
+    this.http.get<any[]>(`https://skilllink-api-gjbcgzabb5c5fnbe.eastasia-01.azurewebsites.net/api/messages/${this.currentUser.id}/${this.chatPartnerId}`)
     .subscribe({
       next: (history) => {
         this.messages = history;
@@ -89,7 +89,7 @@ export class Messages implements OnInit, OnDestroy{
 
   connectWebSocket() {
     this.stompClient = new Client({
-      webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
+      webSocketFactory: () => new SockJS('https://skilllink-api-gjbcgzabb5c5fnbe.eastasia-01.azurewebsites.net/ws'),
       reconnectDelay: 5000,
       debug: (str) => console.log(str)
     });

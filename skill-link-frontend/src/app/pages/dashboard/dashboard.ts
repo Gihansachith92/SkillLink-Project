@@ -268,7 +268,7 @@ export class Dashboard implements OnInit {
   // NEW LOGIC: DIGITAL CAMPUS FEED
   // ==========================================
   loadCampusFeed() {
-    this.http.get<any[]>('http://localhost:8080/api/posts/feed').subscribe({
+    this.http.get<any[]>('https://skilllink-api-gjbcgzabb5c5fnbe.eastasia-01.azurewebsites.net/api/posts/feed').subscribe({
       next: (data) => {
         this.posts = data;
         this.cdr.detectChanges();
@@ -290,7 +290,7 @@ export class Dashboard implements OnInit {
       githubLink: this.newPostGithubLink,
     };
 
-    this.http.post<any>('http://localhost:8080/api/posts/create', postPayload).subscribe({
+    this.http.post<any>('https://skilllink-api-gjbcgzabb5c5fnbe.eastasia-01.azurewebsites.net/api/posts/create', postPayload).subscribe({
       next: (savedPost) => {
         this.posts.unshift(savedPost); // Instantly add to top of feed
         this.newPostContent = '';
@@ -310,7 +310,7 @@ export class Dashboard implements OnInit {
   // Deletes the post from the database and the screen
   deletePost(postId: number) {
     if (confirm('Warning, are you sure you wish to delete this post?')) {
-      this.http.delete(`http://localhost:8080/api/posts/delete/${postId}`).subscribe({
+      this.http.delete(`https://skilllink-api-gjbcgzabb5c5fnbe.eastasia-01.azurewebsites.net/api/posts/delete/${postId}`).subscribe({
         next: () => {
           // Remove the post from the screen instantly without refreshing
           this.posts = this.posts.filter(post => post.id !== postId);
